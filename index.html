@@ -11,8 +11,14 @@
       media="screen"
       href="./assets/css/reset.css"
     />
+    <!--
+      <link
+        href="https://fonts.googleapis.com/css?family=Roboto+Condensed"
+        rel="stylesheet"
+      />
+    -->
     <link
-      href="https://fonts.googleapis.com/css?family=Roboto+Condensed"
+      href="https://fonts.googleapis.com/css?family=Montserrat|Kumar+One+Outline|Roboto+Condensed"
       rel="stylesheet"
     />
 
@@ -33,11 +39,14 @@
     <div class="container">
       <!-- title row -->
       <div class="row">
-        <div class="col"><h1>Knitting Word Guessing Game</h1></div>
+        <div class="col">
+          <h1>Knitting Word Guessing Game</h1>
+          <p>Try not to drop any stitches!</p>
+        </div>
       </div>
       <!-- visual row -->
-      <div class="row">
-        <div class="col-5">
+      <div class="row top-bottom-border">
+        <div class="col-5 border-right-add">
           <p class="left-justify">Stitches Remaining</p>
           <img
             class="needle"
@@ -50,19 +59,19 @@
           <p>Dropped Stitches</p>
           <p id="dropped-stitches"></p>
         </div>
-        <div class="col-5">
+        <div class="col-5 border-left-add">
           <p>&nbsp;</p>
           <img
             class="needle"
             src="./assets/images/rightneedle.png"
             alt="right needle"
           />
-          <p id="right-stitch">C C C C C C C C C C C</p>
+          <p id="right-stitch">C C C C C C C C C C C C C</p>
         </div>
       </div>
       <!-- game row -->
 
-      <div class="row">
+      <div class="row thin-bottom-border">
         <div class="col-sm">
           <p>Wins</p>
           <p id="windisplay"></p>
@@ -76,8 +85,7 @@
           <p id="lossdisplay"></p>
         </div>
       </div>
-      <div class="row">
-        <br /><br />
+      <div class="row thin-bottom-border">
         <div class="col-sm"><p id="wordguess">word to guess</p></div>
       </div>
       <div class="row">
@@ -86,7 +94,7 @@
           <p id="guessedletters"></p>
         </div>
       </div>
-      <div class="row">
+      <div class="row ">
         <div class="col-sm">
           <p id="roundendtext"></p>
           <p id="continue">Click me to continue!</p>

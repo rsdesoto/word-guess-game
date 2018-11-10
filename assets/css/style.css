@@ -1,18 +1,22 @@
-.row {
-  border: 1px black solid;
-}
-
 p {
   text-align: center;
   margin-bottom: 0;
+  padding: 5px;
+  font-family: "Montserrat", sans-serif;
+  color: #303030;
+  font-size: 16px;
+}
+
+body {
+  background-image: url("../images/knitting250px.png");
+  background-repeat: repeat;
 }
 
 h1 {
   text-align: center;
-}
-
-#continue {
-  border: 1px solid black;
+  padding: 5px 5px 0 5px;
+  margin-top: 10px;
+  font-family: "Kumar One Outline", cursive;
 }
 
 .left-justify {
@@ -26,8 +30,9 @@ h1 {
   font-size: 25px;
   position: absolute;
   right: 11%;
-  top: 34px;
-  color: blue;
+  top: 39px;
+  color: #ee6103;
+  font-weight: 900;
 }
 
 #right-stitch {
@@ -37,15 +42,49 @@ h1 {
   font-size: 25px;
   position: absolute;
   left: 11%;
-  top: 34px;
+  top: 39px;
+  color: #eea403;
+  font-weight: 900;
+}
+
+#continue {
+  border: rgb(163, 158, 152) 5px dashed;
+  height: 50px;
+  padding: 10px;
+  margin: 0 25% 0 25%;
+}
+
+.top-bottom-border {
+  border-top: rgb(163, 158, 152) 5px dashed;
+  border-bottom: rgb(163, 158, 152) 5px dashed;
+}
+
+.border-right-add {
+  border-right: rgb(163, 158, 152) 5px dashed;
+}
+
+.border-left-add {
+  border-left: rgb(163, 158, 152) 5px dashed;
+}
+
+.thin-bottom-border {
+  border-bottom: rgb(163, 158, 152) 1px dashed;
+}
+
+.thick-border {
+  border: rgb(163, 158, 152) 5px dashed;
+}
+
+.border-top-add {
+  border-top: rgb(163, 158, 152) 5px dashed;
+}
+
+.border-bottom-add {
+  border-bottom: rgb(163, 158, 152) 5px dashed;
 }
 
 .col-5 {
-  border: 1px solid black;
   position: relative;
-}
-.col-2 {
-  border: 1px solid black;
 }
 
 .needle {
@@ -60,13 +99,19 @@ h1 {
 }
 
 #dropped-stitches {
-  color: red;
+  color: #a12512;
+  font-family: "Roboto Condensed", sans-serif;
+  font-weight: 900;
+  font-size: 25px;
 }
 
 #wordguess {
   padding: 20px;
 }
 
-#continue {
-  padding: 20px;
+/* a janky way to make my terrible homemade knitting needles look legit */
+.container {
+  background-color: white;
+  margin-top: 30px;
+  border: rgb(163, 158, 152) 5px dashed;
 }
