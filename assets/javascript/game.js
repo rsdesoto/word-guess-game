@@ -2,7 +2,23 @@
 
 // initialize variables
 
-var wordList = ["cat", "dog", "wordone", "wordtwo", "wordthree", "wordfour"];
+var wordList = [
+  "intarsia",
+  "moss stitch",
+  "cabling",
+  "stockinette",
+  "knit",
+  "purl",
+  "yarn over",
+  "worsted weight",
+  "mohair",
+  "frogging",
+  "cast on",
+  "bind off",
+  "fair isle",
+  "toe up",
+  "toe down"
+];
 var validKeys = [
   "a",
   "b",
@@ -141,7 +157,11 @@ function setWord() {
 // create an array of what has and hasn't been answered. Unanswered is _, answered is letter
 function writeWord() {
   for (i = 0; i < questionWord.length; i++) {
-    wordDisplay.push("_ ");
+    if (questionWord[i] != " ") {
+      wordDisplay.push("_ ");
+    } else {
+      wordDisplay.push("\u00A0");
+    }
   }
   console.log(wordDisplay);
 }
@@ -183,7 +203,7 @@ function needleDisplay() {
 // update guess arrays
 function updateGuess() {
   remainArray.pop();
-  guessedArray.push("O ");
+  guessedArray.push("0");
 }
 
 // function to display all the letters that have been guessed so far
