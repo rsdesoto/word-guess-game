@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>word game</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      media="screen"
+      href="./assets/css/reset.css"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      media="screen"
+      href="./assets/css/style.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+      integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+      crossorigin="anonymous"
+    />
+  </head>
+  <body>
+    <div class="container">
+      <!-- title row -->
+      <div class="row">
+        <div class="col"><h1>Knitting Word Guessing Game</h1></div>
+      </div>
+      <!-- visual row -->
+      <div class="row">
+        <div class="col-5"><p>guesses left - graphics</p></div>
+        <div class="col-2"><p>dropped stitches - graphics</p></div>
+        <div class="col-5"><p>decorative</p></div>
+      </div>
+      <!-- game row -->
+
+      <div class="row">
+        <div class="col-sm">
+          <p>Wins</p>
+          <p id="windisplay"></p>
+        </div>
+        <div class="col-sm">
+          <p>Game</p>
+          <p id="gamedisplay"></p>
+        </div>
+        <div class="col-sm">
+          <p>Loss</p>
+          <p id="lossdisplay"></p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm"><p id="wordguess">word to guess</p></div>
+      </div>
+      <div class="row">
+        <div class="col-sm">
+          <p>Letters Guessed:</p>
+          <p id="guessedletters"></p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm">
+          <p id="roundendtext"></p>
+          <p id="continue">Click me to continue!</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- <p id="wordguess">heck.</p> -->
+
+    <script src="./assets/javascript/game.js"></script>
+  </body>
+</html>

@@ -1,0 +1,15 @@
+.row {
+  border: 1px black solid;
+}
+
+p {
+  text-align: center;
+}
+
+h1 {
+  text-align: center;
+}
+
+#continue {
+  border: 1px solid black;
+}
