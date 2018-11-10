@@ -32,7 +32,9 @@ var validKeys = [
   "z"
 ];
 
-/////////////// for a full game /////////////
+/////////////// stats for the full game /////////////
+// get the total number of guesses you get
+var guessesAllowed = 10;
 // number of wins
 var wins;
 // number of games played
@@ -40,7 +42,7 @@ var gamesPlayed;
 // number of games lost
 var gamesLost;
 
-////////////// for a single round ////////////
+////////////// stats for a single round ////////////
 // number of guesses made this round
 var guessesMade;
 // what letters have been guessed
@@ -53,21 +55,23 @@ var wordDisplay;
 // string - for printing the array of solved and unsolved letters to the screen
 var wordDisplayString;
 
-// get the div we are displaying the word itself into
+///////////////// IDs manipulated during the game /////////////////////
+// where the blanks are displayed for the game
 var displayMe = document.getElementById("wordguess");
-
+// which letters have been guessed
 var displayGuessed = document.getElementById("guessedletters");
-
+// where wins are counted
 var winDisplay = document.getElementById("windisplay");
-
+// where the number of games played are counted
 var gameDisplay = document.getElementById("gamedisplay");
-
+// where losses are counted
 var lossDisplay = document.getElementById("lossdisplay");
-
+// text that displays upon the end of the game
 var roundEndText = document.getElementById("roundendtext");
-
+// text that appears at the end of the game to continue the game
 var continueText = document.getElementById("continue");
 
+// whenever you click the continue text, it should reset the game
 continueText.onclick = function() {
   clearGuesses();
   setWord();
@@ -89,12 +93,9 @@ function loseContent() {
   roundEndText.textContent = "You lost :c the answer was " + questionWord;
 }
 
-// get the total number of guesses you get
-var guessesAllowed = 10;
-
 // create a function to clear out guesses for every round of the game
 function clearGuesses() {
-  guessesMade = 0;
+  guessesMade = 1;
   guessedLetters = "";
   wordDisplay = [];
   wordDisplayString = "";
@@ -117,9 +118,6 @@ function writeStats() {
   lossDisplay.textContent = gamesLost;
   gameDisplay.textContent = gamesPlayed;
 }
-
-initializeGame();
-writeStats();
 
 // randomly choose a word from the word list
 function setWord() {
@@ -144,16 +142,18 @@ function showWord() {
   displayMe.textContent = wordDisplayString;
 }
 
+// function to display all the letters that have been guessed so far
 function showGuessed() {
   displayGuessed.textContent = guessedLetters;
 }
+
+initializeGame();
+writeStats();
 
 setWord();
 writeWord();
 showWord();
 showGuessed();
-
-console.log(guessesAllowed);
 
 // when a key is pressed, check to see if the letter is in the chosen word
 document.onkeyup = function(event) {
@@ -205,12 +205,50 @@ document.onkeyup = function(event) {
       // display the win screen
       winContent();
     }
-  } else {
-    // tick the games played and losses up
-    gamesPlayed++;
-    gamesLost++;
-    writeStats();
-    // display the lose screen
-    loseContent();
+  }
+  // if this is the FINAL allowed guess -- slightly different rules
+  else if (guessesMade === guessesAllowed) {
+    ltr = event.key.toLowerCase();
+    if (validKeys.indexOf(ltr) > -1) {
+      // first, check to make sure this letter hasn't been guessed already
+      if (guessedLetters.indexOf(ltr) === -1) {
+        // check to see if this letter is in the word (questionWord) and if yes, add it to the wordDisplay array
+        if (questionWord.indexOf(ltr) > -1) {
+          for (i = 0; i < wordDisplay.length; i++) {
+            if (questionWord[i] === ltr) {
+              wordDisplay[i] = ltr;
+            }
+          }
+          showWord();
+          // add the new letter to guessed letters and update the showGuessed text section
+          guessedLetters += ltr;
+
+          showGuessed();
+          // check for the win condition
+          if (wordDisplayString.indexOf("_") === -1) {
+            // Tick the games played and wins up
+            gamesPlayed++;
+            wins++;
+            writeStats();
+            // display the win screen
+            winContent();
+          }
+        } // if this letter is NOT in the question word, immediately lose the round
+        else {
+          // if the letter is NOT in the guessing word, increment up the guessesMade number
+          guessesMade++;
+          // add the new letter to guessed letters and update the showGuessed text section
+          guessedLetters += ltr;
+
+          showGuessed();
+          // tick the games played and losses up
+          gamesPlayed++;
+          gamesLost++;
+          writeStats();
+          // display the lose screen
+          loseContent();
+        }
+      }
+    }
   }
 };
