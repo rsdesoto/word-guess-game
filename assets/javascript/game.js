@@ -55,6 +55,11 @@ var wordDisplay;
 // string - for printing the array of solved and unsolved letters to the screen
 var wordDisplayString;
 
+// array - for the needles on the left showing guesses remaining
+var remainArray;
+// array - for the dropped stitches showing guesses made
+var guessedArray;
+
 ///////////////// IDs manipulated during the game /////////////////////
 // where the blanks are displayed for the game
 var displayMe = document.getElementById("wordguess");
@@ -70,6 +75,12 @@ var lossDisplay = document.getElementById("lossdisplay");
 var roundEndText = document.getElementById("roundendtext");
 // text that appears at the end of the game to continue the game
 var continueText = document.getElementById("continue");
+
+// text that appears at the end of the game to continue the game
+var leftNeedle = document.getElementById("left-stitch");
+
+// text that appears at the end of the game to continue the game
+var dropStitches = document.getElementById("dropped-stitches");
 
 // whenever you click the continue text, it should reset the game
 continueText.onclick = function() {
@@ -101,6 +112,8 @@ function clearGuesses() {
   wordDisplayString = "";
   roundEndText.style.display = "none";
   continueText.style.display = "none";
+  guessInitialize();
+  needleDisplay();
 }
 
 // create a function to clear out wins, games played, guesses to initialize/restart the game
@@ -142,6 +155,37 @@ function showWord() {
   displayMe.textContent = wordDisplayString;
 }
 
+// create arrays of guesses remaining and guesses made
+function guessInitialize() {
+  remainArray = [];
+  guessedArray = [];
+
+  for (i = 0; i < guessesAllowed; i++) {
+    remainArray.push("C ");
+  }
+}
+
+// display guesses remaining and guesses made
+function needleDisplay() {
+  var leftContent = "";
+  var dropContent = "";
+  for (i = 0; i < remainArray.length; i++) {
+    leftContent += remainArray[i];
+  }
+  for (i = 0; i < guessedArray.length; i++) {
+    dropContent += guessedArray[i];
+  }
+
+  leftNeedle.textContent = leftContent;
+  dropStitches.textContent = dropContent;
+}
+
+// update guess arrays
+function updateGuess() {
+  remainArray.pop();
+  guessedArray.push("O ");
+}
+
 // function to display all the letters that have been guessed so far
 function showGuessed() {
   displayGuessed.textContent = guessedLetters;
@@ -149,6 +193,8 @@ function showGuessed() {
 
 initializeGame();
 writeStats();
+guessInitialize();
+needleDisplay();
 
 setWord();
 writeWord();
@@ -176,6 +222,9 @@ document.onkeyup = function(event) {
         } else {
           // if the letter is NOT in the guessing word, increment up the guessesMade number
           guessesMade++;
+          // update the needles graphic
+          updateGuess();
+          needleDisplay();
         }
 
         // add the new letter to guessed letters and update the showGuessed text section
@@ -239,6 +288,9 @@ document.onkeyup = function(event) {
           guessesMade++;
           // add the new letter to guessed letters and update the showGuessed text section
           guessedLetters += ltr;
+          // update the needles graphic
+          updateGuess();
+          needleDisplay();
 
           showGuessed();
           // tick the games played and losses up

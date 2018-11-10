@@ -14,7 +14,7 @@ h1 {
   border: 1px solid black;
 }
 
-.left-stitch {
+#left-stitch {
   font-family: "Roboto Condensed", sans-serif;
 
   text-align: right;
@@ -24,7 +24,7 @@ h1 {
   top: 10px;
 }
 
-.right-stitch {
+#right-stitch {
   font-family: "Roboto Condensed", sans-serif;
 
   text-align: left;
