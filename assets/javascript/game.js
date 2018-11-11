@@ -98,128 +98,126 @@ var leftNeedle = document.getElementById("left-stitch");
 // text that appears at the end of the game to continue the game
 var dropStitches = document.getElementById("dropped-stitches");
 
-// whenever you click the continue text, it should reset the game
-continueText.onclick = function() {
-  clearGuesses();
-  setWord();
-  writeWord();
-  showWord();
-  showGuessed();
-  writeStats();
+// make an object of commands used in the game
+var gameCommands = {
+  // set a word
+  setWord: function() {
+    questionWord = wordList[Math.floor(Math.random() * (5 - 0 + 1) + 0)];
+    console.log(questionWord);
+  },
+  // create an array of guesses for the chosen game word
+  writeWord: function() {
+    for (i = 0; i < questionWord.length; i++) {
+      if (questionWord[i] != " ") {
+        wordDisplay.push("_ ");
+      } else {
+        wordDisplay.push("\u00A0");
+      }
+    }
+    console.log(wordDisplay);
+  },
+  // display the contents of the array of guesses for the chosen game word
+  showWord: function() {
+    wordDisplayString = "";
+    for (i = 0; i < wordDisplay.length; i++) {
+      wordDisplayString += wordDisplay[i];
+    }
+    displayMe.textContent = wordDisplayString;
+  },
+  // update guess arrays
+  updateGuess: function() {
+    remainArray.pop();
+    guessedArray.push("0");
+  },
+
+  // function to display all the letters that have been guessed so far
+  showGuessed: function() {
+    displayGuessed.textContent = guessedLetters;
+  },
+  // initialize the array of "stitches" on the left needle
+  guessInitialize: function() {
+    remainArray = [];
+    guessedArray = [];
+
+    for (i = 0; i < guessesAllowed; i++) {
+      remainArray.push("C ");
+    }
+  },
+  // display needles and "stitches" that are remaining and/or have been dropped
+  needleDisplay: function() {
+    var leftContent = "";
+    var dropContent = "";
+    for (i = 0; i < remainArray.length; i++) {
+      leftContent += remainArray[i];
+    }
+    for (i = 0; i < guessedArray.length; i++) {
+      dropContent += guessedArray[i];
+    }
+
+    leftNeedle.textContent = leftContent;
+    dropStitches.textContent = dropContent;
+  },
+
+  // clear guesses upon restarting the game
+  clearGuesses: function() {
+    guessesMade = 1;
+    guessedLetters = "";
+    wordDisplay = [];
+    wordDisplayString = "";
+    roundEndText.style.display = "none";
+    continueText.style.display = "none";
+    gameCommands.guessInitialize();
+    gameCommands.needleDisplay();
+  },
+  // create a function to clear out wins, games played, guesses to initialize/restart the game
+  initializeGame: function() {
+    wins = 0;
+    gamesPlayed = 0;
+    gamesLost = 0;
+
+    gameCommands.clearGuesses();
+  },
+  // create a function to write wins, losses, and games played
+  writeStats: function() {
+    winDisplay.textContent = wins;
+    lossDisplay.textContent = gamesLost;
+    gameDisplay.textContent = gamesPlayed;
+  }
 };
 
-function winContent() {
-  continueText.style.display = "block";
-  roundEndText.style.display = "block";
-  roundEndText.textContent = "You won! The answer was " + questionWord;
-}
-
-function loseContent() {
-  continueText.style.display = "block";
-  roundEndText.style.display = "block";
-  roundEndText.textContent = "You lost :c the answer was " + questionWord;
-}
-
-// create a function to clear out guesses for every round of the game
-function clearGuesses() {
-  guessesMade = 1;
-  guessedLetters = "";
-  wordDisplay = [];
-  wordDisplayString = "";
-  roundEndText.style.display = "none";
-  continueText.style.display = "none";
-  guessInitialize();
-  needleDisplay();
-}
-
-// create a function to clear out wins, games played, guesses to initialize/restart the game
-function initializeGame() {
-  wins = 0;
-  gamesPlayed = 0;
-  gamesLost = 0;
-
-  clearGuesses();
-}
-
-// create a function to write wins, losses, and games played
-function writeStats() {
-  winDisplay.textContent = wins;
-  lossDisplay.textContent = gamesLost;
-  gameDisplay.textContent = gamesPlayed;
-}
-
-// randomly choose a word from the word list
-function setWord() {
-  questionWord = wordList[Math.floor(Math.random() * (5 - 0 + 1) + 0)];
-  console.log(questionWord);
-}
-
-// create an array of what has and hasn't been answered. Unanswered is _, answered is letter
-function writeWord() {
-  for (i = 0; i < questionWord.length; i++) {
-    if (questionWord[i] != " ") {
-      wordDisplay.push("_ ");
-    } else {
-      wordDisplay.push("\u00A0");
-    }
+// get the various endings of the game
+var gameEndings = {
+  winContent: function() {
+    continueText.style.display = "block";
+    roundEndText.style.display = "block";
+    roundEndText.textContent = "You won! The answer was " + questionWord;
+  },
+  loseContent: function() {
+    continueText.style.display = "block";
+    roundEndText.style.display = "block";
+    roundEndText.textContent = "You lost :c the answer was " + questionWord;
   }
-  console.log(wordDisplay);
-}
+};
 
-// create a variable that sets the contents of the writeWord guess array to a single variable for display
-function showWord() {
-  wordDisplayString = "";
-  for (i = 0; i < wordDisplay.length; i++) {
-    wordDisplayString += wordDisplay[i];
-  }
-  displayMe.textContent = wordDisplayString;
-}
+// whenever you click the continue text, it should reset the game
+continueText.onclick = function() {
+  gameCommands.clearGuesses();
+  gameCommands.setWord();
+  gameCommands.writeWord();
+  gameCommands.showWord();
+  gameCommands.showGuessed();
+  gameCommands.writeStats();
+};
 
-// create arrays of guesses remaining and guesses made
-function guessInitialize() {
-  remainArray = [];
-  guessedArray = [];
+gameCommands.initializeGame();
+gameCommands.writeStats();
+gameCommands.guessInitialize();
+gameCommands.needleDisplay();
 
-  for (i = 0; i < guessesAllowed; i++) {
-    remainArray.push("C ");
-  }
-}
-
-// display guesses remaining and guesses made
-function needleDisplay() {
-  var leftContent = "";
-  var dropContent = "";
-  for (i = 0; i < remainArray.length; i++) {
-    leftContent += remainArray[i];
-  }
-  for (i = 0; i < guessedArray.length; i++) {
-    dropContent += guessedArray[i];
-  }
-
-  leftNeedle.textContent = leftContent;
-  dropStitches.textContent = dropContent;
-}
-
-// update guess arrays
-function updateGuess() {
-  remainArray.pop();
-  guessedArray.push("0");
-}
-
-// function to display all the letters that have been guessed so far
-function showGuessed() {
-  displayGuessed.textContent = guessedLetters;
-}
-
-initializeGame();
-writeStats();
-guessInitialize();
-needleDisplay();
-
-setWord();
-writeWord();
-showWord();
-showGuessed();
+gameCommands.setWord();
+gameCommands.writeWord();
+gameCommands.showWord();
+gameCommands.showGuessed();
 
 // when a key is pressed, check to see if the letter is in the chosen word
 document.onkeyup = function(event) {
@@ -229,96 +227,82 @@ document.onkeyup = function(event) {
     // 0th level: make sure this is an ACTUAL LETTER, since guessing "meta" will mess everything up
     ltr = event.key.toLowerCase();
     if (validKeys.indexOf(ltr) > -1) {
-      // first, check to make sure this letter hasn't been guessed already
+      // first, check to make sure this letter hasn't been guessed already; check if letter is in word
       if (guessedLetters.indexOf(ltr) === -1) {
-        // check to see if this letter is in the word (questionWord) and if yes, add it to the wordDisplay array
         if (questionWord.indexOf(ltr) > -1) {
+          // if guess is in word, add to the puzzle array
           for (i = 0; i < wordDisplay.length; i++) {
             if (questionWord[i] === ltr) {
               wordDisplay[i] = ltr;
             }
           }
-          showWord();
+          gameCommands.showWord();
         } else {
-          // if the letter is NOT in the guessing word, increment up the guessesMade number
+          // if the letter is NOT in the guessing word, increment up the guessesMade number and update the needle graphics
           guessesMade++;
-          // update the needles graphic
-          updateGuess();
-          needleDisplay();
+          gameCommands.updateGuess();
+          gameCommands.needleDisplay();
         }
 
         // add the new letter to guessed letters and update the showGuessed text section
         guessedLetters += ltr;
-
-        showGuessed();
-
-        // temp test - print all this to console.log so we can check
-        console.log(
-          "wins: " +
-            wins +
-            " games played " +
-            gamesPlayed +
-            " guesses made " +
-            guessesMade +
-            " letters guessed " +
-            guessedLetters
-        );
+        gameCommands.showGuessed();
       }
     }
-    // get win condition
+    // Win condition: if the "_" character is no longer in the displayed string
     if (wordDisplayString.indexOf("_") === -1) {
       // Tick the games played and wins up
       gamesPlayed++;
       wins++;
-      writeStats();
+      gameCommands.writeStats();
       // display the win screen
-      winContent();
+      gameEndings.winContent();
     }
   }
   // if this is the FINAL allowed guess -- slightly different rules
+  // if you guess wrong, this should immediately lose the game.
+  // if you guess right, allow the user to keep guessing
   else if (guessesMade === guessesAllowed) {
     ltr = event.key.toLowerCase();
     if (validKeys.indexOf(ltr) > -1) {
       // first, check to make sure this letter hasn't been guessed already
       if (guessedLetters.indexOf(ltr) === -1) {
-        // check to see if this letter is in the word (questionWord) and if yes, add it to the wordDisplay array
         if (questionWord.indexOf(ltr) > -1) {
+          // if guess is in word, add to the puzzle array
           for (i = 0; i < wordDisplay.length; i++) {
             if (questionWord[i] === ltr) {
               wordDisplay[i] = ltr;
             }
           }
-          showWord();
+          gameCommands.showWord();
           // add the new letter to guessed letters and update the showGuessed text section
           guessedLetters += ltr;
 
-          showGuessed();
+          gameCommands.showGuessed();
           // check for the win condition
           if (wordDisplayString.indexOf("_") === -1) {
             // Tick the games played and wins up
             gamesPlayed++;
             wins++;
-            writeStats();
+            gameCommands.writeStats();
             // display the win screen
-            winContent();
+            gameEndings.winContent();
           }
         } // if this letter is NOT in the question word, immediately lose the round
         else {
-          // if the letter is NOT in the guessing word, increment up the guessesMade number
           guessesMade++;
-          // add the new letter to guessed letters and update the showGuessed text section
           guessedLetters += ltr;
           // update the needles graphic
-          updateGuess();
-          needleDisplay();
+          gameCommands.updateGuess();
+          gameCommands.needleDisplay();
 
-          showGuessed();
+          gameCommands.showGuessed();
           // tick the games played and losses up
           gamesPlayed++;
           gamesLost++;
-          writeStats();
+          gameCommands.writeStats();
           // display the lose screen
-          loseContent();
+          gameEndings.loseContent();
         }
       }
     }
